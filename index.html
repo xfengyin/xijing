@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="兮·境">
+  <meta name="format-detection" content="telephone=no">
+  
+  <!-- SEO -->
+  <title>兮·境 | 本兮音乐纪念空间</title>
+  <meta name="description" content="沉浸式本兮音乐纪念空间，让青春永不散场。包含完整歌词、音乐历程、粉丝留言、AI音质修复、虚拟对唱等功能。">
+  <meta name="keywords" content="本兮,兮·境,音乐纪念,歌词,90后回忆">
+  <meta name="author" content="兮·境">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="兮·境 | 本兮音乐纪念空间">
+  <meta property="og:description" content="沉浸式本兮音乐纪念空间，让青春永不散场">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <!-- 预加载关键资源 -->
+  <link rel="preconnect" href="https://cdn.skypack.dev">
+  <link rel="dns-prefetch" href="https://cdn.skypack.dev">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-dark: #1a1a2e;
+      --primary: #ffb6c1;
+      --secondary: #87ceeb;
+      --text: rgba(255,255,255,0.9);
+      --text-muted: rgba(255,255,255,0.6);
+    }
+    
+    html, body { 
+      width: 100%; 
+      height: 100%;
+      background: var(--bg-dark);
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    #loading {
+      position: fixed; 
+      inset: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
+      z-index: 9999; 
+      transition: opacity 0.8s ease;
+    }
+    
+    #loading.hidden { 
+      opacity: 0; 
+      pointer-events: none; 
+    }
+    
+    .loader {
+      width: 60px; 
+      height: 60px;
+      border: 3px solid rgba(255,182,193,0.2);
+      border-top-color: #ffb6c1;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin { 
+      to { transform: rotate(360deg); } 
+    }
+    
+    .loading-logo {
+      font-size: 48px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffb6c1, #87ceeb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      letter-spacing: 4px;
+    }
+    
+    .loading-text {
+      color: #ffb6c1;
+      font-size: 14px; 
+      letter-spacing: 2px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse { 
+      0%, 100% { opacity: 0.5; } 
+      50% { opacity: 1; } 
+    }
+    
+    /* 离线提示 */
+    .offline-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+      color: white;
+      text-align: center;
+      padding: 8px;
+      font-size: 13px;
+      z-index: 10000;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .offline-indicator.show {
+      transform: translateY(0);
+    }
+    
+    /* 安装提示 */
+    .install-prompt {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(26,26,46,0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,182,193,0.3);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+    
+    .install-prompt.show {
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .install-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffb6c1, #87ceeb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    .install-text {
+      flex: 1;
+    }
+    
+    .install-title {
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 2px;
+      font-size: 15px;
+    }
+    
+    .install-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+    
+    .install-btn {
+      background: #ffb6c1;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: #1a1a2e;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- 离线提示 -->
+  <div class="offline-indicator" id="offline-indicator">
+    ⚠️ 网络已断开，部分内容可能无法加载
+  </div>
+  
+  <!-- 加载画面 -->
+  <div id="loading">
+    <div class="loading-logo">兮·境</div>
+    <div class="loader"></div>
+    <p class="loading-text">正在进入纪念空间...</p>
+  </div>
+  
+  <!-- 主应用 -->
+  <div id="app"></div>
+  
+  <!-- PWA 安装提示 -->
+  <div class="install-prompt" id="install-prompt">
+    <div class="install-icon">🎵</div>
+    <div class="install-text">
+      <div class="install-title">添加到主屏幕</div>
+      <div class="install-desc">随时随地聆听本兮</div>
+    </div>
+    <button class="install-btn" id="install-btn">安装</button>
+  </div>
+
+  <script>
+    // 隐藏加载画面
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loading = document.getElementById('loading')
+        if (loading) {
+          loading.classList.add('hidden')
+          setTimeout(() => loading.remove(), 800)
+        }
+      }, 1500)
+    })
+    
+    // 注册 Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('[PWA] Service Worker 注册成功:', registration.scope)
+          })
+          .catch(error => {
+            console.error('[PWA] Service Worker 注册失败:', error)
+          })
+      })
+    }
+    
+    // 网络状态监听
+    const offlineIndicator = document.getElementById('offline-indicator')
+    
+    function updateOnlineStatus() {
+      if (offlineIndicator) {
+        offlineIndicator.classList.toggle('show', !navigator.onLine)
+      }
+    }
+    
+    window.addEventListener('online', updateOnlineStatus)
+    window.addEventListener('offline', updateOnlineStatus)
+    updateOnlineStatus()
+    
+    // PWA 安装提示
+    let deferredPrompt
+    const installPrompt = document.getElementById('install-prompt')
+    const installBtn = document.getElementById('install-btn')
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault()
+      deferredPrompt = e
+      
+      // 显示安装提示
+      setTimeout(() => {
+        installPrompt?.classList.add('show')
+      }, 3000)
+    })
+    
+    installBtn?.addEventListener('click', async () => {
+      if (!deferredPrompt) return
+      
+      deferredPrompt.prompt()
+      const { outcome } = await deferredPrompt.userChoice
+      
+      if (outcome === 'accepted') {
+        console.log('[PWA] 用户接受了安装')
+      }
+      
+      installPrompt.classList.remove('show')
+      deferredPrompt = null
+    })
+    
+    // 如果已经安装，隐藏提示
+    window.addEventListener('appinstalled', () => {
+      installPrompt?.classList.remove('show')
+      deferredPrompt = null
+    })
+  </script>
+  
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
