@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#1a1a2e">
+  <meta name="theme-color" content="#121212">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="兮·境">
   <meta name="format-detection" content="telephone=no">
   
@@ -22,85 +22,59 @@
   <meta property="og:locale" content="zh_CN">
   
   <!-- PWA -->
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="/assets/manifest-CWOKPHhE.json">
+  <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon-CaXYzKe_.svg">
   
-  <!-- 预加载关键资源 -->
-  <link rel="preconnect" href="https://cdn.skypack.dev">
-  <link rel="dns-prefetch" href="https://cdn.skypack.dev">
+  <!-- 新主题样式 -->
   
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    :root {
-      --bg-dark: #1a1a2e;
-      --primary: #ffb6c1;
-      --secondary: #87ceeb;
-      --text: rgba(255,255,255,0.9);
-      --text-muted: rgba(255,255,255,0.6);
-    }
-    
-    html, body { 
-      width: 100%; 
-      height: 100%;
-      background: var(--bg-dark);
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    
+    /* 加载动画 */
     #loading {
-      position: fixed; 
+      position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
+      background: #121212;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      z-index: 9999; 
-      transition: opacity 0.8s ease;
+      z-index: 99999;
+      transition: opacity 0.5s ease;
     }
     
-    #loading.hidden { 
-      opacity: 0; 
-      pointer-events: none; 
+    #loading.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
     
-    .loader {
-      width: 60px; 
-      height: 60px;
-      border: 3px solid rgba(255,182,193,0.2);
-      border-top-color: #ffb6c1;
+    .loading-logo {
+      font-size: 64px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff6b9d, #c44569);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+      letter-spacing: 8px;
+    }
+    
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(255, 107, 157, 0.2);
+      border-top-color: #ff6b9d;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
     
-    @keyframes spin { 
-      to { transform: rotate(360deg); } 
-    }
-    
-    .loading-logo {
-      font-size: 48px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #ffb6c1, #87ceeb);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 20px;
-      letter-spacing: 4px;
-    }
-    
     .loading-text {
-      color: #ffb6c1;
-      font-size: 14px; 
+      color: #6a6a6a;
+      font-size: 14px;
+      margin-top: 24px;
       letter-spacing: 2px;
-      animation: pulse 1.5s ease-in-out infinite;
     }
     
-    @keyframes pulse { 
-      0%, 100% { opacity: 0.5; } 
-      50% { opacity: 1; } 
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
     
     /* 离线提示 */
@@ -112,9 +86,9 @@
       background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
       color: white;
       text-align: center;
-      padding: 8px;
-      font-size: 13px;
-      z-index: 10000;
+      padding: 12px;
+      font-size: 14px;
+      z-index: 100000;
       transform: translateY(-100%);
       transition: transform 0.3s ease;
     }
@@ -122,69 +96,9 @@
     .offline-indicator.show {
       transform: translateY(0);
     }
-    
-    /* 安装提示 */
-    .install-prompt {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(26,26,46,0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,182,193,0.3);
-      border-radius: 16px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 1000;
-      transition: transform 0.3s ease;
-    }
-    
-    .install-prompt.show {
-      transform: translateX(-50%) translateY(0);
-    }
-    
-    .install-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #ffb6c1, #87ceeb);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-    }
-    
-    .install-text {
-      flex: 1;
-    }
-    
-    .install-title {
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 2px;
-      font-size: 15px;
-    }
-    
-    .install-desc {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-    }
-    
-    .install-btn {
-      background: #ffb6c1;
-      border: none;
-      border-radius: 20px;
-      padding: 8px 16px;
-      color: #1a1a2e;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-    }
   </style>
-  <script type="module" crossorigin src="/assets/index-CPODd7bx.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BkmlzAbL.css">
+  <script type="module" crossorigin src="/assets/index-sklUzfkd.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-9VliyB1v.css">
 </head>
 <body>
   <!-- 离线提示 -->
@@ -195,21 +109,180 @@
   <!-- 加载画面 -->
   <div id="loading">
     <div class="loading-logo">兮·境</div>
-    <div class="loader"></div>
+    <div class="loading-spinner"></div>
     <p class="loading-text">正在进入纪念空间...</p>
   </div>
-  
+
   <!-- 主应用 -->
-  <div id="app"></div>
-  
-  <!-- PWA 安装提示 -->
-  <div class="install-prompt" id="install-prompt">
-    <div class="install-icon">🎵</div>
-    <div class="install-text">
-      <div class="install-title">添加到主屏幕</div>
-      <div class="install-desc">随时随地聆听本兮</div>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+      <div class="nav-brand">
+        <div class="brand-logo">兮</div>
+        <div>
+          <div class="brand-text">兮·境</div>
+          <div class="brand-subtitle">本兮音乐纪念空间</div>
+        </div>
+      </div>
+      
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="home">首页</button>
+        <button class="nav-tab" data-tab="lyrics">歌词</button>
+        <button class="nav-tab" data-tab="messages">留言</button>
+        <button class="nav-tab" data-tab="timeline">历程</button>
+      </div>
+      
+      <div class="nav-actions">
+        <button class="nav-btn" id="btn-search" title="搜索">🔍</button>
+        <button class="nav-btn" id="btn-settings" title="设置">⚙️</button>
+        <button class="nav-btn" id="btn-user" title="用户">👤</button>
+      </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <!-- 左侧播放列表 -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">播放列表</div>
+          <div class="sidebar-subtitle">共 8 首歌曲</div>
+        </div>
+        <div class="song-list" id="song-list">
+          <!-- 歌曲列表由JS动态生成 -->
+        </div>
+      </aside>
+
+      <!-- 中央内容 -->
+      <section class="center-content">
+        <!-- 封面区 -->
+        <div class="hero-section">
+          <div class="album-artwork" id="album-artwork">
+            <div class="album-placeholder">🎵</div>
+            <div class="vinyl-record" id="vinyl-record"></div>
+          </div>
+          
+          <div class="hero-info">
+            <div class="hero-type">单曲</div>
+            <h1 class="hero-title" id="hero-title">小三你好贱</h1>
+            <div class="hero-artist">
+              <a href="#">本兮</a> · 2011
+            </div>
+            <div class="hero-meta">
+              <span>⏱ 3:32</span>
+              <span>🔥 1.2万次播放</span>
+              <span>💬 896条留言</span>
+            </div>
+            <div class="hero-actions">
+              <button class="btn-primary" id="btn-play-hero">
+                <span>▶</span> 播放
+              </button>
+              <button class="btn-secondary" id="btn-like-hero" title="喜欢">♡</button>
+              <button class="btn-secondary" id="btn-share-hero" title="分享">↗</button>
+              <button class="btn-secondary" id="btn-more-hero" title="更多">⋯</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 功能区 -->
+        <div class="features-section">
+          <h2 class="section-title">功能</h2>
+          <div class="features-grid">
+            <div class="feature-card" data-feature="lyrics">
+              <div class="feature-icon">📜</div>
+              <div class="feature-title">歌词同步</div>
+              <div class="feature-desc">逐字逐句，重温经典</div>
+            </div>
+            <div class="feature-card" data-feature="messages">
+              <div class="feature-icon">💌</div>
+              <div class="feature-title">留言墙</div>
+              <div class="feature-desc">与万千兮饭共鸣</div>
+            </div>
+            <div class="feature-card" data-feature="ai">
+              <div class="feature-icon">✨</div>
+              <div class="feature-title">AI音质修复</div>
+              <div class="feature-desc">重现录音室音质</div>
+            </div>
+            <div class="feature-card" data-feature="duet">
+              <div class="feature-icon">🎤</div>
+              <div class="feature-title">虚拟对唱</div>
+              <div class="feature-desc">与本兮隔空合唱</div>
+            </div>
+            <div class="feature-card" data-feature="live">
+              <div class="feature-icon">📺</div>
+              <div class="feature-title">永恒直播间</div>
+              <div class="feature-desc">24小时循环播放</div>
+            </div>
+            <div class="feature-card" data-feature="timeline">
+              <div class="feature-icon">🕐</div>
+              <div class="feature-title">音乐历程</div>
+              <div class="feature-desc">回顾本兮音乐之路</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底部播放栏 -->
+    <footer class="player-bar">
+      <!-- 当前播放 -->
+      <div class="player-now-playing">
+        <div class="player-cover" id="player-cover">
+          <div class="player-cover-placeholder">🎵</div>
+        </div>
+        <div class="player-track">
+          <div class="player-track-name" id="player-track-name">小三你好贱</div>
+          <div class="player-track-artist" id="player-track-artist">本兮</div>
+        </div>
+        <button class="player-like-btn" id="player-like">♡</button>
+      </div>
+
+      <!-- 播放控制 -->
+      <div class="player-controls">
+        <div class="controls-buttons">
+          <button class="control-btn small" id="btn-shuffle" title="随机">🔀</button>
+          <button class="control-btn medium" id="btn-prev" title="上一首">⏮</button>
+          <button class="control-btn play" id="btn-play" title="播放/暂停">▶</button>
+          <button class="control-btn medium" id="btn-next" title="下一首">⏭</button>
+          <button class="control-btn small" id="btn-repeat" title="循环">🔁</button>
+        </div>
+        <div class="progress-container">
+          <span class="time-current" id="time-current">0:00</span>
+          <div class="progress-bar" id="progress-bar">
+            <div class="progress-fill" id="progress-fill">
+              <div class="progress-handle"></div>
+            </div>
+          </div>
+          <span class="time-total" id="time-total">3:32</span>
+        </div>
+      </div>
+
+      <!-- 音量控制 -->
+      <div class="player-extras">
+        <button class="extra-btn" id="btn-lyrics" title="歌词">🎤</button>
+        <button class="extra-btn" id="btn-queue" title="播放队列">📝</button>
+        <button class="extra-btn" id="btn-device" title="设备">📱</button>
+        <div class="volume-control">
+          <button class="extra-btn" id="btn-volume">🔊</button>
+          <div class="volume-slider" id="volume-slider">
+            <div class="volume-fill" id="volume-fill"></div>
+          </div>
+        </div>
+        <button class="extra-btn" id="btn-fullscreen" title="全屏">⛶</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 面板覆盖层 -->
+  <div class="panel-overlay" id="panel-overlay">
+    <div class="panel-content">
+      <div class="panel-header">
+        <h2 class="panel-title" id="panel-title">歌词</h2>
+        <button class="panel-close" id="panel-close">×</button>
+      </div>
+      <div class="panel-body" id="panel-body">
+        <!-- 动态内容 -->
+      </div>
     </div>
-    <button class="install-btn" id="install-btn">安装</button>
   </div>
 
   <script>
@@ -219,7 +292,7 @@
         const loading = document.getElementById('loading')
         if (loading) {
           loading.classList.add('hidden')
-          setTimeout(() => loading.remove(), 800)
+          setTimeout(() => loading.remove(), 500)
         }
       }, 1500)
     })
@@ -227,7 +300,7 @@
     // 注册 Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('./sw.js')
           .then(registration => {
             console.log('[PWA] Service Worker 注册成功:', registration.scope)
           })
@@ -239,51 +312,14 @@
     
     // 网络状态监听
     const offlineIndicator = document.getElementById('offline-indicator')
-    
     function updateOnlineStatus() {
       if (offlineIndicator) {
         offlineIndicator.classList.toggle('show', !navigator.onLine)
       }
     }
-    
     window.addEventListener('online', updateOnlineStatus)
     window.addEventListener('offline', updateOnlineStatus)
     updateOnlineStatus()
-    
-    // PWA 安装提示
-    let deferredPrompt
-    const installPrompt = document.getElementById('install-prompt')
-    const installBtn = document.getElementById('install-btn')
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault()
-      deferredPrompt = e
-      
-      // 显示安装提示
-      setTimeout(() => {
-        installPrompt?.classList.add('show')
-      }, 3000)
-    })
-    
-    installBtn?.addEventListener('click', async () => {
-      if (!deferredPrompt) return
-      
-      deferredPrompt.prompt()
-      const { outcome } = await deferredPrompt.userChoice
-      
-      if (outcome === 'accepted') {
-        console.log('[PWA] 用户接受了安装')
-      }
-      
-      installPrompt.classList.remove('show')
-      deferredPrompt = null
-    })
-    
-    // 如果已经安装，隐藏提示
-    window.addEventListener('appinstalled', () => {
-      installPrompt?.classList.remove('show')
-      deferredPrompt = null
-    })
   </script>
   
 </body>
