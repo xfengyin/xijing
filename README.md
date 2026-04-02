@@ -1,9 +1,9 @@
 # 🎵 兮·境 | 本兮音乐纪念空间
 
 <p align="center">
-  <img src="https://img.shields.io/badge/版本-v1.0.0-ff6b9d?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/版本-v2.0.0-ff6b9d?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/许可证-MIT-4ecdc4?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/技术-Three.js-ffb6c1?style=flat-square" alt="Tech">
+  <img src="https://img.shields.io/badge/设计风格-Spotify_x_QQ音乐-ffb6c1?style=flat-square" alt="Design">
   <img src="https://img.shields.io/badge/PWA-支持-87ceeb?style=flat-square" alt="PWA">
 </p>
 
@@ -13,44 +13,63 @@
 
 <p align="center">
   <a href="https://github.com/xfengyin/xijing">🌟 GitHub</a> •
-  <a href="https://xijing.vercel.app">🚀 在线体验</a> •
+  <a href="https://xfengyin.github.io/xijing">🚀 在线体验</a> •
   <a href="#功能介绍">✨ 功能介绍</a> •
   <a href="#快速开始">🚀 快速开始</a>
 </p>
 
 ---
 
-## ✨ 功能介绍
+## ✨ 全新UI 2.0 - Spotify x QQ音乐 融合风格
+
+兮·境迎来全新界面设计，融合 **Spotify** 的深色沉浸体验与 **QQ音乐** 的大封面卡片设计，打造极致的音乐播放器体验。
+
+### 🎨 设计亮点
+
+| 设计元素 | 说明 |
+|---------|------|
+| **纯黑沉浸背景** | Spotify风格深色主题，减少视觉疲劳 |
+| **大封面展示** | QQ音乐式专辑封面 + 3D黑胶唱片旋转效果 |
+| **粉色品牌色** | 本兮专属渐变粉色，点亮整体视觉 |
+| **固定底部播放栏** | 经典Spotify布局，随时掌控播放 |
+| **侧边播放队列** | 清晰展示播放列表，实时高亮当前歌曲 |
+| **玻璃态面板** | 半透明覆盖层，层次分明的视觉体验 |
+
+---
+
+## 🎯 功能介绍
 
 ### 🎵 核心音乐体验
-- **3D唱片店** - Three.js打造的沉浸式3D场景，旋转的黑胶唱片
-- **歌词同步** - 8首完整LRC歌词，逐字高亮显示
-- **情感主题** - 根据歌曲情绪自动切换氛围色彩
-- **音效反馈** - 全程Web Audio API音效，每一次交互都有回响
+- **完整播放控制** - 播放/暂停、上一首、下一首、随机、循环
+- **进度条拖动** - 点击任意位置直接跳转
+- **音量控制** - 滑动调节音量
+- **喜欢收藏** - 一键标记喜欢的歌曲
+- **黑胶唱片动画** - 播放时3D唱片旋转效果
 
-### 🤖 AI技术演示
-- **音质修复** - AI音质增强可视化演示
-- **波形可视化** - 音波律动效果
-- **人声分离** - 虚拟对唱间概念展示
+### 📜 歌词同步
+- **逐行高亮** - 当前歌词醒目显示
+- **大字体设计** - 沉浸式阅读体验
+- **自动滚动** - 跟随播放进度自动定位
 
-### 💫 互动纪念空间
-- **虚拟对唱间** - 与本兮"合唱"，生成纪念卡片
-- **永恒直播间** - 模拟直播场景，弹幕互动，赠送礼物
-- **粉丝留言墙** - 留下你的回忆，与大家一起纪念
-- **照片画廊** - 3D照片墙展示珍贵瞬间
+### 💌 互动功能
+- **留言墙** - 与万千兮饭共鸣，留下你的回忆
+- **AI音质修复** - 一键增强音质演示
+- **虚拟对唱** - 与本兮隔空合唱
+- **永恒直播间** - 24小时循环播放
+- **音乐历程** - 回顾本兮音乐之路时间轴
 
 ### 📱 PWA支持
 - ✅ 可安装到主屏幕（手机/平板/电脑）
 - ✅ 离线访问支持
 - ✅ Service Worker缓存
-- ✅ 后台同步
+- ✅ 响应式设计，完美适配移动端
 
 ---
 
 ## 🚀 快速开始
 
 ### 在线体验
-👉 **[https://xijing.vercel.app](https://xijing.vercel.app)**
+👉 **[https://xfengyin.github.io/xijing](https://xfengyin.github.io/xijing)**
 
 ### 本地开发
 
@@ -75,18 +94,24 @@ npm run build
 # 输出到 dist/ 目录
 ```
 
+### 部署到GitHub Pages
+
+```bash
+npm run deploy
+# 或手动推送dist目录到gh-pages分支
+```
+
 ---
 
 ## 🛠️ 技术栈
 
 | 类别 | 技术 |
 |------|------|
-| **3D渲染** | Three.js + WebGL |
+| **UI框架** | 原生HTML/CSS/JS |
 | **构建工具** | Vite |
-| **样式** | CSS3 + Glassmorphism |
-| **音频** | Web Audio API |
+| **样式** | CSS3 + 自定义属性 |
 | **PWA** | Service Worker + Manifest |
-| **部署** | Vercel |
+| **部署** | GitHub Pages |
 
 ---
 
@@ -100,59 +125,54 @@ xijing/
 │   ├── manifest.json   # PWA配置
 │   └── sw.js           # Service Worker
 ├── src/
-│   ├── scenes/         # 3D场景
-│   ├── components/     # UI组件
+│   ├── spotify-app.js  # 主应用逻辑
+│   ├── styles/
+│   │   └── spotify-theme.css  # UI 2.0样式
 │   ├── data/           # 歌曲数据
-│   ├── styles/         # CSS样式
-│   └── utils/          # 工具函数
-├── index.html
+│   └── main.js         # 入口文件
+├── index.html          # 主页面
 ├── package.json
+├── vite.config.js
 └── README.md
 ```
 
 ---
 
-## 🎯 使用指南
+## 🎹 键盘快捷键
 
-### 首次访问
-1. 打开网页，欣赏开屏动画
-2. 点击"安装"添加到主屏幕
-3. 浏览歌曲列表，点击播放
-4. 探索各种功能面板
-
-### 键盘快捷键
 | 快捷键 | 功能 |
 |--------|------|
 | `空格` | 播放/暂停 |
 | `Ctrl + ←` | 上一首 |
 | `Ctrl + →` | 下一首 |
-| `L` | 切换歌词面板 |
-| `M` | 切换留言墙 |
-| `T` | 切换时间轴 |
 | `ESC` | 关闭面板 |
 
 ---
 
 ## 📊 项目数据
 
-- 📈 **代码总量**: 6,481行
+- 📈 **代码总量**: ~2,000行
 - 🎵 **歌曲数量**: 8首完整歌词
-- 🎨 **3D场景**: 2个（唱片店 + 照片画廊）
-- ⚡ **功能模块**: 14个
+- 🎨 **UI版本**: 2.0 - Spotify x QQ音乐风格
+- ⚡ **功能模块**: 10个
 - 📱 **PWA支持**: 完整
 
 ---
 
-## 🌟 特色亮点
+## 🌟 版本更新
 
-1. **沉浸式3D体验** - Three.js打造的梦幻音乐空间
-2. **完整歌词同步** - 8首歌曲逐字高亮
-3. **AI概念演示** - 音质修复、人声分离可视化
-4. **纪念互动** - 对唱、直播、留言多功能
-5. **PWA支持** - 可安装，离线使用
-6. **情感化设计** - 主题随歌曲变化
-7. **无障碍优化** - 键盘操作、焦点管理
-8. **性能卓越** - 流畅60fps体验
+### v2.0.0 (2024-04-02)
+- ✨ 全新UI设计 - Spotify x QQ音乐融合风格
+- 🎨 纯黑深色主题 + 粉色品牌强调色
+- 📱 优化移动端适配
+- 🚀 简化架构，移除Three.js依赖
+- ⚡ 提升加载速度
+
+### v1.0.0 (2024-04-01)
+- 🎵 基础播放器功能
+- 📝 8首歌曲歌词
+- 💌 留言墙功能
+- 🤖 AI音质修复演示
 
 ---
 
@@ -173,7 +193,7 @@ xijing/
 ---
 
 <p align="center">
-  Made with 💕 by 兮·境团队
+  Made with 💕 by 兮·境
 </p>
 
 <p align="center">
