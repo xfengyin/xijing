@@ -4,4 +4,3 @@ dist.zip
 .DS_Store
 *.log
 .vite
-package-lock.json

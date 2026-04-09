@@ -4,8 +4,8 @@
   "description": "沉浸式本兮音乐纪念空间，让青春永不散场",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#1a1a2e",
-  "theme_color": "#ffb6c1",
+  "background_color": "#121212",
+  "theme_color": "#ff6b9d",
   "orientation": "portrait",
   "scope": ".",
   "icons": [
