@@ -8,27 +8,27 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="兮·境">
   <meta name="format-detection" content="telephone=no">
-  
+
   <!-- SEO -->
   <title>兮·境 | 本兮音乐纪念空间</title>
   <meta name="description" content="沉浸式本兮音乐纪念空间，让青春永不散场。包含完整歌词、音乐历程、粉丝留言、AI音质修复、虚拟对唱等功能。">
   <meta name="keywords" content="本兮,兮·境,音乐纪念,歌词,90后回忆">
   <meta name="author" content="兮·境">
-  
+
   <!-- Open Graph -->
   <meta property="og:title" content="兮·境 | 本兮音乐纪念空间">
   <meta property="og:description" content="沉浸式本兮音乐纪念空间，让青春永不散场">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
-  
+
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  
-  <!-- 新主题样式 -->
+
+  <!-- 主题样式 -->
   <link rel="stylesheet" href="./src/styles/spotify-theme.css">
-  
+
   <style>
     /* 加载动画 */
     #loading {
@@ -42,69 +42,37 @@
       z-index: 99999;
       transition: opacity 0.5s ease;
     }
-    
-    #loading.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-    
+    #loading.hidden { opacity: 0; pointer-events: none; }
     .loading-logo {
-      font-size: 64px;
-      font-weight: 800;
+      font-size: 64px; font-weight: 800;
       background: linear-gradient(135deg, #ff6b9d, #c44569);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 24px;
-      letter-spacing: 8px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 24px; letter-spacing: 8px;
     }
-    
     .loading-spinner {
-      width: 48px;
-      height: 48px;
+      width: 48px; height: 48px;
       border: 3px solid rgba(255, 107, 157, 0.2);
-      border-top-color: #ff6b9d;
-      border-radius: 50%;
+      border-top-color: #ff6b9d; border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    
-    .loading-text {
-      color: #6a6a6a;
-      font-size: 14px;
-      margin-top: 24px;
-      letter-spacing: 2px;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
+    .loading-text { color: #6a6a6a; font-size: 14px; margin-top: 24px; letter-spacing: 2px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     /* 离线提示 */
     .offline-indicator {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: fixed; top: 0; left: 0; right: 0;
       background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
-      color: white;
-      text-align: center;
-      padding: 12px;
-      font-size: 14px;
-      z-index: 100000;
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
+      color: white; text-align: center; padding: 12px;
+      font-size: 14px; z-index: 100000;
+      transform: translateY(-100%); transition: transform 0.3s ease;
     }
-    
-    .offline-indicator.show {
-      transform: translateY(0);
-    }
+    .offline-indicator.show { transform: translateY(0); }
   </style>
 </head>
 <body>
   <!-- 离线提示 -->
-  <div class="offline-indicator" id="offline-indicator">
-    ⚠️ 网络已断开，部分内容可能无法加载
-  </div>
-  
+  <div class="offline-indicator" id="offline-indicator">⚠️ 网络已断开，部分内容可能无法加载</div>
+
   <!-- 加载画面 -->
   <div id="loading">
     <div class="loading-logo">兮·境</div>
@@ -123,14 +91,12 @@
           <div class="brand-subtitle">本兮音乐纪念空间</div>
         </div>
       </div>
-      
       <div class="nav-tabs">
         <button class="nav-tab active" data-tab="home">首页</button>
         <button class="nav-tab" data-tab="lyrics">歌词</button>
         <button class="nav-tab" data-tab="messages">留言</button>
         <button class="nav-tab" data-tab="timeline">历程</button>
       </div>
-      
       <div class="nav-actions">
         <button class="nav-btn" id="btn-search" title="搜索">🔍</button>
         <button class="nav-btn" id="btn-settings" title="设置">⚙️</button>
@@ -146,35 +112,27 @@
           <div class="sidebar-title">播放列表</div>
           <div class="sidebar-subtitle">共 8 首歌曲</div>
         </div>
-        <div class="song-list" id="song-list">
-          <!-- 歌曲列表由JS动态生成 -->
-        </div>
+        <div class="song-list" id="song-list"></div>
       </aside>
 
       <!-- 中央内容 -->
       <section class="center-content">
-        <!-- 封面区 -->
         <div class="hero-section">
           <div class="album-artwork" id="album-artwork">
             <div class="album-placeholder">🎵</div>
             <div class="vinyl-record" id="vinyl-record"></div>
           </div>
-          
           <div class="hero-info">
             <div class="hero-type">单曲</div>
             <h1 class="hero-title" id="hero-title">小三你好贱</h1>
-            <div class="hero-artist">
-              <a href="#">本兮</a> · 2011
-            </div>
+            <div class="hero-artist"><a href="#">本兮</a> · 2011</div>
             <div class="hero-meta">
               <span>⏱ 3:32</span>
               <span>🔥 1.2万次播放</span>
               <span>💬 896条留言</span>
             </div>
             <div class="hero-actions">
-              <button class="btn-primary" id="btn-play-hero">
-                <span>▶</span> 播放
-              </button>
+              <button class="btn-primary" id="btn-play-hero"><span>▶</span> 播放</button>
               <button class="btn-secondary" id="btn-like-hero" title="喜欢">♡</button>
               <button class="btn-secondary" id="btn-share-hero" title="分享">↗</button>
               <button class="btn-secondary" id="btn-more-hero" title="更多">⋯</button>
@@ -182,7 +140,6 @@
           </div>
         </div>
 
-        <!-- 功能区 -->
         <div class="features-section">
           <h2 class="section-title">功能</h2>
           <div class="features-grid">
@@ -223,19 +180,14 @@
 
     <!-- 底部播放栏 -->
     <footer class="player-bar">
-      <!-- 当前播放 -->
       <div class="player-now-playing">
-        <div class="player-cover" id="player-cover">
-          <div class="player-cover-placeholder">🎵</div>
-        </div>
+        <div class="player-cover" id="player-cover"><div class="player-cover-placeholder">🎵</div></div>
         <div class="player-track">
           <div class="player-track-name" id="player-track-name">小三你好贱</div>
           <div class="player-track-artist" id="player-track-artist">本兮</div>
         </div>
         <button class="player-like-btn" id="player-like">♡</button>
       </div>
-
-      <!-- 播放控制 -->
       <div class="player-controls">
         <div class="controls-buttons">
           <button class="control-btn small" id="btn-shuffle" title="随机">🔀</button>
@@ -247,24 +199,18 @@
         <div class="progress-container">
           <span class="time-current" id="time-current">0:00</span>
           <div class="progress-bar" id="progress-bar">
-            <div class="progress-fill" id="progress-fill">
-              <div class="progress-handle"></div>
-            </div>
+            <div class="progress-fill" id="progress-fill"><div class="progress-handle"></div></div>
           </div>
           <span class="time-total" id="time-total">3:32</span>
         </div>
       </div>
-
-      <!-- 音量控制 -->
       <div class="player-extras">
         <button class="extra-btn" id="btn-lyrics" title="歌词">🎤</button>
         <button class="extra-btn" id="btn-queue" title="播放队列">📝</button>
         <button class="extra-btn" id="btn-device" title="设备">📱</button>
         <div class="volume-control">
           <button class="extra-btn" id="btn-volume">🔊</button>
-          <div class="volume-slider" id="volume-slider">
-            <div class="volume-fill" id="volume-fill"></div>
-          </div>
+          <div class="volume-slider" id="volume-slider"><div class="volume-fill" id="volume-fill"></div></div>
         </div>
         <button class="extra-btn" id="btn-fullscreen" title="全屏">⛶</button>
       </div>
@@ -278,9 +224,7 @@
         <h2 class="panel-title" id="panel-title">歌词</h2>
         <button class="panel-close" id="panel-close">×</button>
       </div>
-      <div class="panel-body" id="panel-body">
-        <!-- 动态内容 -->
-      </div>
+      <div class="panel-body" id="panel-body"></div>
     </div>
   </div>
 
@@ -295,32 +239,26 @@
         }
       }, 1500)
     })
-    
+
     // 注册 Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(registration => {
-            console.log('[PWA] Service Worker 注册成功:', registration.scope)
-          })
-          .catch(error => {
-            console.error('[PWA] Service Worker 注册失败:', error)
-          })
+          .then(reg => console.log('[PWA] Service Worker 注册成功'))
+          .catch(err => console.warn('[PWA] Service Worker 注册失败:', err))
       })
     }
-    
+
     // 网络状态监听
     const offlineIndicator = document.getElementById('offline-indicator')
     function updateOnlineStatus() {
-      if (offlineIndicator) {
-        offlineIndicator.classList.toggle('show', !navigator.onLine)
-      }
+      if (offlineIndicator) offlineIndicator.classList.toggle('show', !navigator.onLine)
     }
     window.addEventListener('online', updateOnlineStatus)
     window.addEventListener('offline', updateOnlineStatus)
     updateOnlineStatus()
   </script>
-  
+
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>

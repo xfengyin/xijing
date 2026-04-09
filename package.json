@@ -1,24 +1,20 @@
 {
   "name": "xijing",
-  "version": "0.1.0",
-  "description": "兮·境 —— 本兮音乐纪念空间",
+  "version": "2.0.0",
+  "description": "兮·境 —— 本兮音乐纪念空间 | Spotify x QQ音乐融合风格",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "deploy": "gh-pages -d dist"
   },
-  "dependencies": {
-    "three": "^0.160.0",
-    "gsap": "^3.12.5",
-    "howler": "^2.2.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "vite": "^5.0.0",
-    "vitest": "^1.0.0"
+    "gh-pages": "^6.0.0"
   },
-  "keywords": ["本兮", "音乐", "纪念", " Three.js", "可视化"],
+  "keywords": ["本兮", "音乐", "纪念", "PWA", "Spotify"],
   "author": "xfengyin",
   "license": "MIT"
 }
