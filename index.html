@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="兮·境">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- SEO -->
+  <title>兮·境 | 本兮音乐纪念空间</title>
+  <meta name="description" content="沉浸式本兮音乐纪念空间，让青春永不散场。包含完整歌词、音乐历程、粉丝留言、AI音质修复、虚拟对唱等功能。">
+  <meta name="keywords" content="本兮,兮·境,音乐纪念,歌词,90后回忆">
+  <meta name="author" content="兮·境">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="兮·境 | 本兮音乐纪念空间">
+  <meta property="og:description" content="沉浸式本兮音乐纪念空间，让青春永不散场">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+  <!-- 主题样式 -->
+
+  <style>
+    /* 加载动画 */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #121212;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      transition: opacity 0.5s ease;
+    }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+    .loading-logo {
+      font-size: 64px; font-weight: 800;
+      background: linear-gradient(135deg, #ff6b9d, #c44569);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 24px; letter-spacing: 8px;
+    }
+    .loading-spinner {
+      width: 48px; height: 48px;
+      border: 3px solid rgba(255, 107, 157, 0.2);
+      border-top-color: #ff6b9d; border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    .loading-text { color: #6a6a6a; font-size: 14px; margin-top: 24px; letter-spacing: 2px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 离线提示 */
+    .offline-indicator {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+      color: white; text-align: center; padding: 12px;
+      font-size: 14px; z-index: 100000;
+      transform: translateY(-100%); transition: transform 0.3s ease;
+    }
+    .offline-indicator.show { transform: translateY(0); }
+  </style>
+  <script type="module" crossorigin src="./assets/index-BZe6YxPh.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BG60Hajq.css">
+</head>
+<body>
+  <!-- 离线提示 -->
+  <div class="offline-indicator" id="offline-indicator">⚠️ 网络已断开，部分内容可能无法加载</div>
+
+  <!-- 加载画面 -->
+  <div id="loading">
+    <div class="loading-logo">兮·境</div>
+    <div class="loading-spinner"></div>
+    <p class="loading-text">正在进入纪念空间...</p>
+  </div>
+
+  <!-- 主应用 -->
+  <div id="app">
+    <!-- 顶部导航 -->
+    <nav class="top-nav" role="navigation" aria-label="主导航">
+      <div class="nav-brand">
+        <div class="brand-logo" aria-hidden="true">兮</div>
+        <div>
+          <div class="brand-text">兮·境</div>
+          <div class="brand-subtitle">本兮音乐纪念空间</div>
+        </div>
+      </div>
+      <div class="nav-tabs" role="tablist">
+        <button class="nav-tab active" data-tab="home" role="tab" aria-label="首页">首页</button>
+        <button class="nav-tab" data-tab="lyrics" role="tab" aria-label="歌词">歌词</button>
+        <button class="nav-tab" data-tab="messages" role="tab" aria-label="留言">留言</button>
+        <button class="nav-tab" data-tab="timeline" role="tab" aria-label="历程">历程</button>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-btn" id="btn-search" title="搜索" aria-label="搜索歌曲">🔍</button>
+        <button class="nav-btn" id="btn-settings" title="设置" aria-label="设置">⚙️</button>
+        <button class="nav-btn" id="btn-user" title="用户" aria-label="个人中心">👤</button>
+      </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <!-- 左侧播放列表 -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">播放列表</div>
+          <div class="sidebar-subtitle">共 8 首歌曲</div>
+        </div>
+        <div class="song-list" id="song-list"></div>
+      </aside>
+
+      <!-- 中央内容 -->
+      <section class="center-content">
+        <div class="hero-section">
+          <div class="album-artwork" id="album-artwork">
+            <div class="album-placeholder" id="album-placeholder" style="background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)">
+              <span class="cover-char-hero">小</span>
+            </div>
+            <div class="vinyl-record" id="vinyl-record"></div>
+          </div>
+          <div class="hero-info">
+            <div class="hero-type">单曲</div>
+            <h1 class="hero-title" id="hero-title">小三你好贱</h1>
+            <div class="hero-artist"><a href="#">本兮</a> · 2011</div>
+            <div class="hero-meta">
+              <span>⏱ 3:32</span>
+              <span>🔥 1.2万次播放</span>
+              <span>💬 896条留言</span>
+            </div>
+            <div class="hero-actions">
+              <button class="btn-primary" id="btn-play-hero"><span>▶</span> 播放</button>
+              <button class="btn-secondary" id="btn-like-hero" title="喜欢">♡</button>
+              <button class="btn-secondary" id="btn-share-hero" title="分享">↗</button>
+              <button class="btn-secondary" id="btn-more-hero" title="更多">⋯</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-section">
+          <h2 class="section-title">功能</h2>
+          <div class="features-grid">
+            <div class="feature-card" data-feature="lyrics">
+              <div class="feature-icon">📜</div>
+              <div class="feature-title">歌词同步</div>
+              <div class="feature-desc">逐字逐句，重温经典</div>
+            </div>
+            <div class="feature-card" data-feature="messages">
+              <div class="feature-icon">💌</div>
+              <div class="feature-title">留言墙</div>
+              <div class="feature-desc">与万千兮饭共鸣</div>
+            </div>
+            <div class="feature-card" data-feature="ai">
+              <div class="feature-icon">✨</div>
+              <div class="feature-title">AI音质修复</div>
+              <div class="feature-desc">重现录音室音质</div>
+            </div>
+            <div class="feature-card" data-feature="duet">
+              <div class="feature-icon">🎤</div>
+              <div class="feature-title">虚拟对唱</div>
+              <div class="feature-desc">与本兮隔空合唱</div>
+            </div>
+            <div class="feature-card" data-feature="live">
+              <div class="feature-icon">📺</div>
+              <div class="feature-title">永恒直播间</div>
+              <div class="feature-desc">24小时循环播放</div>
+            </div>
+            <div class="feature-card" data-feature="timeline">
+              <div class="feature-icon">🕐</div>
+              <div class="feature-title">音乐历程</div>
+              <div class="feature-desc">回顾本兮音乐之路</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底部播放栏 -->
+    <footer class="player-bar">
+      <div class="player-now-playing">
+        <div class="player-cover" id="player-cover"><div class="player-cover-placeholder" id="player-cover-placeholder" style="background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)"><span class="cover-char-small">小</span></div></div>
+        <div class="player-track">
+          <div class="player-track-name" id="player-track-name">小三你好贱</div>
+          <div class="player-track-artist" id="player-track-artist">本兮</div>
+        </div>
+        <button class="player-like-btn" id="player-like">♡</button>
+      </div>
+      <div class="player-controls">
+        <div class="controls-buttons">
+          <button class="control-btn small" id="btn-shuffle" title="随机" aria-label="随机播放">🔀</button>
+          <button class="control-btn medium" id="btn-prev" title="上一首" aria-label="上一首">⏮</button>
+          <button class="control-btn play" id="btn-play" title="播放/暂停" aria-label="播放">▶</button>
+          <button class="control-btn medium" id="btn-next" title="下一首" aria-label="下一首">⏭</button>
+          <button class="control-btn small" id="btn-repeat" title="循环" aria-label="关闭循环">🔁</button>
+        </div>
+        <div class="progress-container">
+          <span class="time-current" id="time-current">0:00</span>
+          <div class="progress-bar" id="progress-bar">
+            <div class="progress-fill" id="progress-fill"><div class="progress-handle"></div></div>
+          </div>
+          <span class="time-total" id="time-total">3:32</span>
+        </div>
+      </div>
+      <div class="player-extras">
+        <button class="extra-btn" id="btn-lyrics" title="歌词" aria-label="歌词">🎤</button>
+        <button class="extra-btn" id="btn-queue" title="播放队列" aria-label="播放队列">📝</button>
+        <button class="extra-btn" id="btn-device" title="设备" aria-label="设备">📱</button>
+        <div class="volume-control">
+          <button class="extra-btn" id="btn-volume" aria-label="音量">🔊</button>
+          <div class="volume-slider" id="volume-slider" role="slider" aria-label="音量控制" aria-valuemin="0" aria-valuemax="100"><div class="volume-fill" id="volume-fill"></div></div>
+        </div>
+        <button class="extra-btn" id="btn-fullscreen" title="全屏" aria-label="全屏">⛶</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 面板覆盖层 -->
+  <div class="panel-overlay" id="panel-overlay">
+    <div class="panel-content">
+      <div class="panel-header">
+        <h2 class="panel-title" id="panel-title">歌词</h2>
+        <button class="panel-close" id="panel-close">×</button>
+      </div>
+      <div class="panel-body" id="panel-body"></div>
+    </div>
+  </div>
+
+  <script>
+    // 隐藏加载画面
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loading = document.getElementById('loading')
+        if (loading) {
+          loading.classList.add('hidden')
+          setTimeout(() => loading.remove(), 500)
+        }
+      }, 1500)
+    })
+
+    // 注册 Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('[PWA] Service Worker 注册成功'))
+          .catch(err => console.warn('[PWA] Service Worker 注册失败:', err))
+      })
+    }
+
+    // 网络状态监听
+    const offlineIndicator = document.getElementById('offline-indicator')
+    function updateOnlineStatus() {
+      if (offlineIndicator) offlineIndicator.classList.toggle('show', !navigator.onLine)
+    }
+    window.addEventListener('online', updateOnlineStatus)
+    window.addEventListener('offline', updateOnlineStatus)
+    updateOnlineStatus()
+  </script>
+
+</body>
+</html>
