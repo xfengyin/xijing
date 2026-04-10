@@ -1,47 +1,87 @@
 /* 
- * 兮·境 UI 2.0 - Spotify x QQ音乐 融合风格
- * 深色沉浸主题 + 大封面卡片 + 底部播放栏
+ * 兮·境 UI 3.0 - Spotify Design System 规范
+ * 严格遵循 Spotify Design System (awesome-design-md/spotify.md)
+ * 核心规范：#1DB954 绿色功能色 + #121212 暗底 + pill按钮 + 8px卡片 + 重阴影
  */
 
 :root {
-  /* 主色调 - Spotify风格深色主题 */
-  --bg-primary: #121212;
-  --bg-secondary: #181818;
-  --bg-elevated: #242424;
-  --bg-highlight: #2a2a2a;
+  /* ===== Spotify 色彩系统 ===== */
+  /* 主背景层级 - 近黑沉浸 */
+  --bg-primary: #121212;       /* Level 0: 最深层 */
+  --bg-secondary: #181818;     /* Level 1: 卡片/容器/侧边栏 */
+  --bg-elevated: #242424;      /* Level 1 alt: 交互面 */
+  --bg-highlight: #282828;     /* Hover态: 悬停变亮 */
+  --bg-card: #252525;          /* 抬升卡片面 */
   
-  /* 强调色 - 本兮粉 */
-  --accent-primary: #ff6b9d;
-  --accent-secondary: #c44569;
-  --accent-gradient: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+  /* Spotify Green - 功能性品牌色（仅用于播放/活跃/CTA） */
+  --accent-primary: #1DB954;   /* 主功能绿 */
+  --accent-secondary: #1ed760; /* 亮绿（hover态） */
+  --accent-gradient: linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
   
-  /* 文字色 */
-  --text-primary: #ffffff;
-  --text-secondary: #b3b3b3;
-  --text-muted: #6a6a6a;
+  /* 纪念色 - 仅用于装饰/情绪背景，不用于功能交互 */
+  --memorial-pink: #ff6b9d;
+  --memorial-purple: #9370db;
+  --memorial-warm: #ffa42b;
   
-  /* 间距系统 */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
+  /* 文字色 - Spotify 标准 */
+  --text-primary: #ffffff;     /* 主文字 */
+  --text-secondary: #b3b3b3;  /* 次要文字/非活跃导航 */
+  --text-nearwhite: #cbcbcb;   /* 略亮次要文字 */
+  --text-muted: #6a6a6a;      /* 最弱文字 */
+  
+  /* 语义色 */
+  --text-negative: #f3727f;    /* 错误红 */
+  --text-warning: #ffa42b;     /* 警告橙 */
+  --text-announcement: #539df5;/* 通知蓝 */
+  
+  /* 边框色 */
+  --border-gray: #4d4d4d;
+  --border-light: #7c7c7c;
+  --separator: #b3b3b3;
+  
+  /* ===== 间距系统 (8px base) ===== */
+  --spacing-1: 1px;
+  --spacing-2: 2px;
+  --spacing-3: 3px;
+  --spacing-4: 4px;
+  --spacing-5: 5px;
+  --spacing-6: 6px;
+  --spacing-xs: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-14: 14px;
+  --spacing-sm: 12px;
+  --spacing-16: 16px;
   --spacing-md: 16px;
+  --spacing-20: 20px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
   --spacing-xxl: 48px;
   
-  /* 圆角 */
-  --radius-sm: 4px;
+  /* ===== 圆角系统 (Spotify Scale) ===== */
+  --radius-minimal: 2px;
+  --radius-subtle: 4px;
+  --radius-standard: 6px;
+  --radius-comfortable: 8px;
   --radius-md: 8px;
+  --radius-medium: 10px;
   --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-xl: 20px;
+  --radius-large-pill: 100px;
+  --radius-pill: 500px;
+  --radius-full-pill: 9999px;
   --radius-full: 50%;
   
-  /* 阴影 */
+  /* ===== 阴影系统 (Spotify 重阴影) ===== */
+  --shadow-elevated: rgba(0,0,0,0.3) 0px 8px 8px;
+  --shadow-dialog: rgba(0,0,0,0.5) 0px 8px 24px;
+  --shadow-inset-border: rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 30px rgba(255, 107, 157, 0.3);
+  --shadow-glow-green: 0 0 30px rgba(29, 185, 84, 0.3);
   
-  /* 过渡 */
+  /* ===== 过渡 ===== */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
@@ -56,7 +96,7 @@
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Hiragino Kaku Gothic ProN', 'Meiryo', 'Microsoft YaHei', sans-serif;
   overflow: hidden;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -79,7 +119,6 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--spacing-lg);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 100;
 }
 
@@ -93,28 +132,24 @@ body {
   width: 40px;
   height: 40px;
   background: var(--accent-gradient);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-standard);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   font-weight: 700;
-  color: white;
-  box-shadow: var(--shadow-glow);
+  color: #000000;
 }
 
 .brand-text {
   font-size: 20px;
   font-weight: 700;
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
 }
 
 .brand-subtitle {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-top: 2px;
@@ -122,10 +157,10 @@ body {
 
 .nav-tabs {
   display: flex;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-4);
   background: var(--bg-elevated);
   padding: 4px;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-full-pill);
 }
 
 .nav-tab {
@@ -134,8 +169,8 @@ body {
   background: transparent;
   color: var(--text-secondary);
   font-size: 14px;
-  font-weight: 500;
-  border-radius: var(--radius-md);
+  font-weight: 400;
+  border-radius: var(--radius-full-pill);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
@@ -147,7 +182,7 @@ body {
 .nav-tab.active {
   background: var(--bg-highlight);
   color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
+  font-weight: 700;
 }
 
 .nav-actions {
@@ -185,11 +220,9 @@ body {
   position: relative;
 }
 
-/* 侧边栏 - 播放列表 */
 .sidebar {
   width: 300px;
   background: var(--bg-secondary);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   z-index: 50;
@@ -197,25 +230,24 @@ body {
 
 .sidebar-header {
   padding: var(--spacing-lg);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .sidebar-title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .sidebar-subtitle {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .song-list {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-sm) 0;
+  padding: var(--spacing-xs) 0;
 }
 
 .song-list::-webkit-scrollbar {
@@ -242,6 +274,7 @@ body {
   cursor: pointer;
   transition: all var(--transition-fast);
   gap: var(--spacing-md);
+  border-left: 3px solid transparent;
 }
 
 .song-item:hover {
@@ -249,8 +282,8 @@ body {
 }
 
 .song-item.active {
-  background: rgba(255, 107, 157, 0.15);
-  border-left: 3px solid var(--accent-primary);
+  background: rgba(29, 185, 84, 0.1);
+  border-left-color: var(--accent-primary);
 }
 
 .song-info {
@@ -260,7 +293,7 @@ body {
 
 .song-name {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -270,11 +303,12 @@ body {
 
 .song-item.active .song-name {
   color: var(--accent-primary);
+  font-weight: 700;
 }
 
 .song-album {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -282,20 +316,18 @@ body {
 
 .song-duration {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
 }
 
-/* 中央内容区 */
 .center-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255, 107, 157, 0.1) 0%, var(--bg-primary) 30%);
+  background: linear-gradient(180deg, rgba(29, 185, 84, 0.08) 0%, var(--bg-primary) 30%);
 }
 
-/* 封面展示区 - QQ音乐风格大封面 */
 .hero-section {
   padding: var(--spacing-xxl);
   display: flex;
@@ -306,9 +338,9 @@ body {
 .album-artwork {
   width: 280px;
   height: 280px;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-standard);
   overflow: hidden;
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  box-shadow: var(--shadow-dialog);
   position: relative;
   flex-shrink: 0;
 }
@@ -321,7 +353,6 @@ body {
 }
 
 .album-placeholder {
-  background: var(--accent-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -370,7 +401,8 @@ body {
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 400;
 }
 
 .hero-title {
@@ -379,18 +411,19 @@ body {
   color: var(--text-primary);
   margin-bottom: var(--spacing-md);
   line-height: 1.1;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
 .hero-artist {
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text-secondary);
   margin-bottom: var(--spacing-lg);
+  font-weight: 400;
 }
 
 .hero-artist a {
-  color: var(--accent-primary);
+  color: var(--text-primary);
   text-decoration: none;
+  transition: text-decoration var(--transition-fast);
 }
 
 .hero-artist a:hover {
@@ -402,47 +435,56 @@ body {
   align-items: center;
   gap: var(--spacing-md);
   font-size: 14px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
 .hero-meta span {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-4);
 }
 
 .hero-actions {
   display: flex;
   gap: var(--spacing-md);
   margin-top: var(--spacing-xl);
+  align-items: center;
 }
 
+/* Spotify: 主按钮 - Green实心Pill */
 .btn-primary {
-  padding: 14px 36px;
-  background: var(--accent-gradient);
+  padding: 12px 36px;
+  background: var(--accent-primary);
   border: none;
-  border-radius: 500px;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: var(--radius-pill);
+  color: #000000;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   transition: all var(--transition-fast);
-  box-shadow: var(--shadow-glow);
+  letter-spacing: 0.5px;
 }
 
 .btn-primary:hover {
-  transform: scale(1.04);
-  box-shadow: 0 0 40px rgba(255, 107, 157, 0.5);
+  background: var(--accent-secondary);
+  transform: scale(1.03);
 }
 
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Spotify: 次按钮 - Outlined圆形 */
 .btn-secondary {
   width: 48px;
   height: 48px;
-  background: var(--bg-elevated);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-size: 20px;
@@ -454,13 +496,11 @@ body {
 }
 
 .btn-secondary:hover {
-  background: var(--bg-highlight);
+  border-color: var(--text-primary);
   color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
 }
 
-/* 功能区卡片 */
+/* 功能区卡片 - Spotify 8px圆角 + hover播放按钮 */
 .features-section {
   padding: 0 var(--spacing-xxl) var(--spacing-xxl);
   flex: 1;
@@ -468,38 +508,69 @@ body {
 }
 
 .section-title {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
   color: var(--text-primary);
   margin-bottom: var(--spacing-lg);
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: var(--spacing-lg);
 }
 
 .feature-card {
   background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-comfortable);
   padding: var(--spacing-lg);
   cursor: pointer;
-  transition: all var(--transition-normal);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background var(--transition-normal);
+  position: relative;
+  overflow: hidden;
 }
 
 .feature-card:hover {
-  background: var(--bg-elevated);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  background: var(--bg-highlight);
+}
+
+/* Spotify: 卡片hover播放按钮浮现 */
+.feature-card .card-play-btn {
+  position: absolute;
+  right: var(--spacing-md);
+  bottom: var(--spacing-lg);
+  width: 48px;
+  height: 48px;
+  background: var(--accent-primary);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  font-size: 22px;
+  box-shadow: var(--shadow-elevated);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all var(--transition-normal);
+  border: none;
+  cursor: pointer;
+}
+
+.feature-card:hover .card-play-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-card .card-play-btn:hover {
+  background: var(--accent-secondary);
+  transform: scale(1.06) translateY(0);
 }
 
 .feature-icon {
   width: 48px;
   height: 48px;
-  background: var(--accent-gradient);
-  border-radius: var(--radius-md);
+  background: var(--bg-highlight);
+  border-radius: var(--radius-standard);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -509,22 +580,22 @@ body {
 
 .feature-title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-4);
 }
 
 .feature-desc {
-  font-size: 13px;
-  color: var(--text-muted);
+  font-size: 14px;
+  color: var(--text-secondary);
   line-height: 1.4;
+  font-weight: 400;
 }
 
-/* ========== 底部播放栏 - Spotify风格 ========== */
+/* ========== 底部播放栏 ========== */
 .player-bar {
   height: 90px;
   background: var(--bg-secondary);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -532,7 +603,6 @@ body {
   z-index: 100;
 }
 
-/* 当前播放信息 */
 .player-now-playing {
   display: flex;
   align-items: center;
@@ -544,7 +614,7 @@ body {
 .player-cover {
   width: 56px;
   height: 56px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-subtle);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
@@ -557,7 +627,6 @@ body {
 }
 
 .player-cover-placeholder {
-  background: var(--accent-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -571,31 +640,32 @@ body {
 
 .player-track-name {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 2px;
+  cursor: pointer;
 }
 
 .player-track-name:hover {
   text-decoration: underline;
-  cursor: pointer;
 }
 
 .player-track-artist {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
+  font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .player-track-artist:hover {
   color: var(--text-primary);
   text-decoration: underline;
-  cursor: pointer;
 }
 
 .player-like-btn {
@@ -603,7 +673,7 @@ body {
   height: 32px;
   border: none;
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -613,7 +683,7 @@ body {
 }
 
 .player-like-btn:hover {
-  color: var(--accent-primary);
+  color: var(--text-primary);
   transform: scale(1.1);
 }
 
@@ -621,12 +691,11 @@ body {
   color: var(--accent-primary);
 }
 
-/* 播放控制区 */
 .player-controls {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   max-width: 40%;
   flex: 1;
 }
@@ -640,7 +709,7 @@ body {
 .control-btn {
   border: none;
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -651,6 +720,10 @@ body {
 .control-btn:hover {
   color: var(--text-primary);
   transform: scale(1.1);
+}
+
+.control-btn.active {
+  color: var(--accent-primary);
 }
 
 .control-btn.small {
@@ -672,19 +745,18 @@ body {
   color: var(--bg-primary);
   border-radius: var(--radius-full);
   font-size: 18px;
-  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
 }
 
 .control-btn.play:hover {
   transform: scale(1.08);
-  box-shadow: var(--shadow-md);
 }
 
-/* 进度条 */
+/* 进度条 - Spotify绿色 */
 .progress-container {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   width: 100%;
   max-width: 500px;
 }
@@ -692,9 +764,10 @@ body {
 .time-current,
 .time-total {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
   min-width: 35px;
+  text-align: center;
 }
 
 .progress-bar {
@@ -704,7 +777,7 @@ body {
   border-radius: 2px;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .progress-fill {
@@ -712,7 +785,7 @@ body {
   background: var(--text-primary);
   border-radius: 2px;
   width: 0%;
-  transition: width 0.1s linear;
+  transition: width 0.1s linear, background var(--transition-fast);
   position: relative;
 }
 
@@ -727,23 +800,21 @@ body {
   transform: translateY(-50%);
   width: 12px;
   height: 12px;
-  background: var(--text-primary);
+  background: var(--accent-primary);
   border-radius: var(--radius-full);
   opacity: 0;
   transition: opacity var(--transition-fast);
-  box-shadow: var(--shadow-sm);
 }
 
 .progress-bar:hover .progress-handle {
   opacity: 1;
 }
 
-/* 音量控制 */
 .player-extras {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   width: 30%;
   min-width: 180px;
 }
@@ -753,7 +824,7 @@ body {
   height: 32px;
   border: none;
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -766,10 +837,14 @@ body {
   color: var(--text-primary);
 }
 
+.extra-btn.active {
+  color: var(--accent-primary);
+}
+
 .volume-control {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-4);
 }
 
 .volume-slider {
@@ -779,6 +854,7 @@ body {
   border-radius: 2px;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 }
 
 .volume-fill {
@@ -786,6 +862,11 @@ body {
   background: var(--text-primary);
   border-radius: 2px;
   width: 70%;
+  transition: background var(--transition-fast);
+}
+
+.volume-slider:hover .volume-fill {
+  background: var(--accent-primary);
 }
 
 /* ========== 面板覆盖层 ========== */
@@ -868,20 +949,21 @@ body {
 .lyrics-line {
   padding: var(--spacing-md);
   font-size: 20px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   transition: all var(--transition-normal);
   line-height: 1.6;
+  font-weight: 400;
+  cursor: pointer;
 }
 
 .lyrics-line:hover {
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .lyrics-line.current {
   font-size: 28px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-shadow: 0 0 30px rgba(255, 107, 157, 0.5);
+  font-weight: 700;
+  color: var(--accent-primary);
 }
 
 /* 留言墙面板 */
@@ -895,34 +977,38 @@ body {
 
 .message-item {
   background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-comfortable);
   padding: var(--spacing-lg);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background var(--transition-fast);
+}
+
+.message-item:hover {
+  background: var(--bg-highlight);
 }
 
 .message-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .message-author {
   font-size: 14px;
-  font-weight: 600;
-  color: var(--accent-primary);
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .message-time {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .message-text {
   font-size: 15px;
   color: var(--text-primary);
   line-height: 1.6;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .message-actions {
@@ -932,11 +1018,11 @@ body {
 
 .message-action {
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-4);
   transition: color var(--transition-fast);
 }
 
@@ -948,7 +1034,6 @@ body {
   display: flex;
   gap: var(--spacing-md);
   padding-top: var(--spacing-lg);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
   margin-top: var(--spacing-lg);
 }
 
@@ -956,21 +1041,22 @@ body {
   flex: 1;
   padding: 12px var(--spacing-md);
   background: var(--bg-elevated);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 500px;
+  border: none;
+  box-shadow: var(--shadow-inset-border);
+  border-radius: var(--radius-pill);
   color: var(--text-primary);
+  font-family: inherit;
   font-size: 14px;
   outline: none;
   transition: all var(--transition-fast);
 }
 
 .message-input:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 2px rgba(255, 107, 157, 0.2);
+  box-shadow: rgb(18,18,18) 0px 1px 0px, #1DB954 0px 0px 0px 2px inset;
 }
 
 .message-input::placeholder {
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 /* ========== 响应式设计 ========== */
@@ -1061,11 +1147,11 @@ body {
   }
 }
 
-/* ========== 封面渐变字符样式 ========== */
+/* ========== 封面字符样式 ========== */
 .song-cover-mini {
   width: 40px;
   height: 40px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1081,7 +1167,7 @@ body {
 
 .cover-char-hero {
   font-size: 120px;
-  font-weight: 800;
+  font-weight: 700;
   color: white;
   text-shadow: 0 4px 20px rgba(0,0,0,0.3);
   line-height: 1;
@@ -1109,23 +1195,24 @@ body {
 
 .search-input {
   width: 100%;
-  padding: 14px var(--spacing-lg);
+  padding: 12px 48px;
   background: var(--bg-elevated);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 500px;
+  border: none;
+  box-shadow: var(--shadow-inset-border);
+  border-radius: var(--radius-pill);
   color: var(--text-primary);
-  font-size: 16px;
+  font-family: inherit;
+  font-size: 14px;
   outline: none;
   transition: all var(--transition-fast);
 }
 
 .search-input:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+  box-shadow: rgb(18,18,18) 0px 1px 0px, #1DB954 0px 0px 0px 2px inset;
 }
 
 .search-input::placeholder {
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .search-results {
@@ -1140,7 +1227,7 @@ body {
   display: flex;
   align-items: center;
   padding: 10px var(--spacing-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-subtle);
   cursor: pointer;
   transition: background var(--transition-fast);
   gap: var(--spacing-md);
@@ -1164,34 +1251,36 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  background: rgba(255, 107, 157, 0.2);
+  background: rgba(29, 185, 84, 0.15);
   color: var(--accent-primary);
   font-size: 12px;
   font-weight: 600;
   padding: 4px 12px;
-  border-radius: 500px;
-  border: 1px solid rgba(255, 107, 157, 0.3);
+  border-radius: var(--radius-full-pill);
+  border: 1px solid rgba(29, 185, 84, 0.3);
+  text-transform: capitalize;
 }
 
 .ai-demo-title {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
-  margin: var(--spacing-lg) 0 var(--spacing-sm);
+  margin: var(--spacing-lg) 0 var(--spacing-xs);
 }
 
 .ai-demo-desc {
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.6;
   max-width: 400px;
+  font-weight: 400;
 }
 
 .ai-demo-status {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  color: var(--text-muted);
+  gap: var(--spacing-xs);
+  color: var(--text-secondary);
   font-size: 13px;
   margin-top: var(--spacing-lg);
 }
@@ -1209,7 +1298,6 @@ body {
   50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* 波形动画 - AI音质修复 */
 .waveform-container {
   display: flex;
   align-items: center;
@@ -1223,7 +1311,7 @@ body {
 
 .waveform-bar {
   width: 6px;
-  background: var(--accent-gradient);
+  background: var(--accent-primary);
   border-radius: 3px;
   height: var(--height);
   animation: waveformPulse 1.5s ease-in-out infinite;
@@ -1235,7 +1323,6 @@ body {
   50% { height: var(--height); opacity: 1; }
 }
 
-/* 对唱视觉 - 虚拟对唱 */
 .duet-visual {
   display: flex;
   align-items: center;
@@ -1254,13 +1341,12 @@ body {
   justify-content: center;
   font-size: 24px;
   font-weight: 700;
-  color: white;
-  box-shadow: var(--shadow-glow);
+  color: #000000;
 }
 
 .duet-avatar.duet-me {
   background: linear-gradient(135deg, #4ecdc4, #2c9e96);
-  box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+  color: white;
 }
 
 .duet-wave {
@@ -1272,7 +1358,7 @@ body {
 .duet-wave-bar {
   width: 3px;
   height: 30px;
-  background: var(--accent-gradient);
+  background: var(--accent-primary);
   border-radius: 2px;
   animation: duetWave 1.2s ease-in-out infinite;
   animation-delay: var(--delay);
@@ -1283,7 +1369,6 @@ body {
   50% { height: 40px; opacity: 1; }
 }
 
-/* 直播面板 */
 .live-panel {
   overflow: hidden;
 }
@@ -1292,7 +1377,7 @@ body {
   width: 100%;
   max-width: 500px;
   background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-comfortable);
   padding: var(--spacing-lg);
   position: relative;
   overflow: hidden;
@@ -1309,7 +1394,7 @@ body {
 
 .live-bar {
   width: 8px;
-  background: var(--accent-gradient);
+  background: var(--accent-primary);
   border-radius: 4px;
   animation: liveBar 1s ease-in-out infinite;
   animation-delay: var(--delay);
@@ -1326,21 +1411,20 @@ body {
   align-items: center;
   margin-top: var(--spacing-md);
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .live-viewers {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-4);
 }
 
 .live-song {
   color: var(--accent-primary);
-  font-weight: 500;
+  font-weight: 700;
 }
 
-/* 弹幕效果 */
 .danmaku-container {
   position: relative;
   height: 80px;
@@ -1363,7 +1447,7 @@ body {
   100% { left: -100%; transform: translateX(-100%); }
 }
 
-/* ========== Tooltip提示 ========== */
+/* ========== Tooltip ========== */
 .app-tooltip {
   position: fixed;
   bottom: 120px;
@@ -1372,10 +1456,9 @@ body {
   background: var(--bg-elevated);
   color: var(--text-primary);
   padding: 10px 24px;
-  border-radius: 500px;
+  border-radius: var(--radius-pill);
   font-size: 14px;
-  box-shadow: var(--shadow-md);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-dialog);
   opacity: 0;
   transition: all var(--transition-normal);
   z-index: 99999;
@@ -1387,7 +1470,6 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* ========== 动画 ========== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1397,7 +1479,6 @@ body {
   animation: fadeIn 0.5s ease forwards;
 }
 
-/* 滚动条美化 */
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -1414,4 +1495,61 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.25);
+}
+
+/* ========== 时间线面板 ========== */
+.timeline-container {
+  padding: var(--spacing-lg);
+}
+
+.timeline-track {
+  border-left: 2px solid var(--accent-primary);
+  padding-left: var(--spacing-lg);
+}
+
+.timeline-item {
+  margin-bottom: var(--spacing-xxl);
+  position: relative;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -33px;
+  width: 16px;
+  height: 16px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+}
+
+.timeline-dot.memorial {
+  background: var(--memorial-purple);
+  box-shadow: 0 0 12px rgba(147,112,219,0.6);
+}
+
+.timeline-year {
+  font-size: 14px;
+  color: var(--accent-primary);
+  font-weight: 700;
+  margin-bottom: var(--spacing-4);
+}
+
+.timeline-year.memorial {
+  color: var(--memorial-purple);
+}
+
+.timeline-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+}
+
+.timeline-title.memorial {
+  color: var(--memorial-purple);
+}
+
+.timeline-desc {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 14px;
+  font-weight: 400;
 }

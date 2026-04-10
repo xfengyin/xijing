@@ -12,9 +12,9 @@ window.addEventListener('DOMContentLoaded', () => {
   app.init()
   
   // 控制台欢迎信息
-  console.log('%c兮·境', 'font-size: 48px; font-weight: bold; background: linear-gradient(135deg, #ff6b9d, #c44569); -webkit-background-clip: text; -webkit-text-fill-color: transparent;')
-  console.log('%c本兮音乐纪念空间 - 让青春永不散场', 'font-size: 14px; color: #ff6b9d;')
-  console.log('%cUI 2.0 - Spotify x QQ音乐风格', 'font-size: 12px; color: #888;')
+  console.log('%c兮·境', 'font-size: 48px; font-weight: bold; color: #1DB954;')
+  console.log('%c本兮音乐纪念空间 - 让青春永不散场', 'font-size: 14px; color: #1DB954;')
+  console.log('%cUI 3.0 - Spotify Design System', 'font-size: 12px; color: #b3b3b3;')
   
   // 暴露到全局方便调试
   window.xijingApp = app

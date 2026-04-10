@@ -9,6 +9,11 @@
   <meta name="apple-mobile-web-app-title" content="兮·境">
   <meta name="format-detection" content="telephone=no">
 
+  <!-- Spotify Design System: Inter font (Circular fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <!-- SEO -->
   <title>兮·境 | 本兮音乐纪念空间</title>
   <meta name="description" content="沉浸式本兮音乐纪念空间，让青春永不散场。包含完整歌词、音乐历程、粉丝留言、AI音质修复、虚拟对唱等功能。">
@@ -30,7 +35,7 @@
   <link rel="stylesheet" href="./src/styles/spotify-theme.css">
 
   <style>
-    /* 加载动画 */
+    /* 加载动画 - Spotify Green */
     #loading {
       position: fixed;
       inset: 0;
@@ -45,25 +50,24 @@
     #loading.hidden { opacity: 0; pointer-events: none; }
     .loading-logo {
       font-size: 64px; font-weight: 800;
-      background: linear-gradient(135deg, #ff6b9d, #c44569);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      color: #1DB954;
       margin-bottom: 24px; letter-spacing: 8px;
     }
     .loading-spinner {
       width: 48px; height: 48px;
-      border: 3px solid rgba(255, 107, 157, 0.2);
-      border-top-color: #ff6b9d; border-radius: 50%;
+      border: 3px solid rgba(29, 185, 84, 0.2);
+      border-top-color: #1DB954; border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    .loading-text { color: #6a6a6a; font-size: 14px; margin-top: 24px; letter-spacing: 2px; }
+    .loading-text { color: #b3b3b3; font-size: 14px; margin-top: 24px; letter-spacing: 2px; font-weight: 400; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* 离线提示 */
     .offline-indicator {
       position: fixed; top: 0; left: 0; right: 0;
-      background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
-      color: white; text-align: center; padding: 12px;
-      font-size: 14px; z-index: 100000;
+      background: #1DB954;
+      color: #000000; text-align: center; padding: 12px;
+      font-size: 14px; font-weight: 700; z-index: 100000;
       transform: translateY(-100%); transition: transform 0.3s ease;
     }
     .offline-indicator.show { transform: translateY(0); }
@@ -149,31 +153,37 @@
               <div class="feature-icon">📜</div>
               <div class="feature-title">歌词同步</div>
               <div class="feature-desc">逐字逐句，重温经典</div>
+              <button class="card-play-btn" aria-label="播放歌词同步">▶</button>
             </div>
             <div class="feature-card" data-feature="messages">
               <div class="feature-icon">💌</div>
               <div class="feature-title">留言墙</div>
               <div class="feature-desc">与万千兮饭共鸣</div>
+              <button class="card-play-btn" aria-label="播放留言墙">▶</button>
             </div>
             <div class="feature-card" data-feature="ai">
               <div class="feature-icon">✨</div>
               <div class="feature-title">AI音质修复</div>
               <div class="feature-desc">重现录音室音质</div>
+              <button class="card-play-btn" aria-label="播放AI音质修复">▶</button>
             </div>
             <div class="feature-card" data-feature="duet">
               <div class="feature-icon">🎤</div>
               <div class="feature-title">虚拟对唱</div>
               <div class="feature-desc">与本兮隔空合唱</div>
+              <button class="card-play-btn" aria-label="播放虚拟对唱">▶</button>
             </div>
             <div class="feature-card" data-feature="live">
               <div class="feature-icon">📺</div>
               <div class="feature-title">永恒直播间</div>
               <div class="feature-desc">24小时循环播放</div>
+              <button class="card-play-btn" aria-label="播放永恒直播间">▶</button>
             </div>
             <div class="feature-card" data-feature="timeline">
               <div class="feature-icon">🕐</div>
               <div class="feature-title">音乐历程</div>
               <div class="feature-desc">回顾本兮音乐之路</div>
+              <button class="card-play-btn" aria-label="播放音乐历程">▶</button>
             </div>
           </div>
         </div>

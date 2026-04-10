@@ -1,6 +1,7 @@
 /**
- * 兮·境 UI 2.1 - Spotify x QQ音乐风格
- * 全面修复版 - 真实音频播放、LRC歌词集成、交互完善
+ * 兮·境 UI 3.0 - Spotify Design System 规范
+ * 严格遵循 Spotify 配色/组件/排版规范
+ * 核心变更：#1DB954绿色功能色 + 700/400字重 + pill按钮 + 8px卡片
  */
 
 import { songs, getMoodConfig } from './data/songs.js'
@@ -478,7 +479,8 @@ export class XijingSpotifyApp {
     this.isShuffle = !this.isShuffle
     const btn = document.getElementById('btn-shuffle')
     if (btn) {
-      btn.style.color = this.isShuffle ? '#ff6b9d' : ''
+      btn.style.color = this.isShuffle ? '#1DB954' : ''
+      btn.classList.toggle('active', this.isShuffle)
       btn.setAttribute('aria-label', this.isShuffle ? '关闭随机' : '随机播放')
     }
   }
@@ -487,7 +489,8 @@ export class XijingSpotifyApp {
     this.repeatMode = (this.repeatMode + 1) % 3
     const btn = document.getElementById('btn-repeat')
     if (btn) {
-      btn.style.color = this.repeatMode > 0 ? '#ff6b9d' : ''
+      btn.style.color = this.repeatMode > 0 ? '#1DB954' : ''
+      btn.classList.toggle('active', this.repeatMode > 0)
       btn.textContent = this.repeatMode === 2 ? '🔂' : '🔁'
       const labels = ['关闭循环', '列表循环', '单曲循环']
       btn.setAttribute('aria-label', labels[this.repeatMode])
@@ -784,14 +787,14 @@ export class XijingSpotifyApp {
     ]
 
     body.innerHTML = `
-      <div style="padding: 24px;">
-        <div style="border-left: 2px solid #ff6b9d; padding-left: 24px;">
+      <div class="timeline-container">
+        <div class="timeline-track">
           ${timeline.map(t => `
-            <div style="margin-bottom: 32px; position: relative;">
-              <div style="position: absolute; left: -33px; width: 16px; height: 16px; background: ${t.memorial ? '#9370db' : '#ff6b9d'}; border-radius: 50%;${t.memorial ? ' box-shadow: 0 0 12px rgba(147,112,219,0.6);' : ''}"></div>
-              <div style="font-size: 14px; color: ${t.memorial ? '#9370db' : '#ff6b9d'}; margin-bottom: 4px;">${t.year}</div>
-              <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;${t.memorial ? ' color: #9370db;' : ''}">${t.title}</div>
-              <div style="color: #6a6a6a; line-height: 1.6;">${t.desc}</div>
+            <div class="timeline-item">
+              <div class="timeline-dot${t.memorial ? ' memorial' : ''}"></div>
+              <div class="timeline-year${t.memorial ? ' memorial' : ''}">${t.year}</div>
+              <div class="timeline-title${t.memorial ? ' memorial' : ''}">${t.title}</div>
+              <div class="timeline-desc">${t.desc}</div>
             </div>
           `).join('')}
         </div>
