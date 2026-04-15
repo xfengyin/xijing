@@ -1,132 +1,143 @@
-// Service Worker - 兮·境 PWA v2
-const CACHE_NAME = 'xijing-v2'
+/**
+ * 兮·境 Service Worker v3
+ * 策略：
+ * - 歌词(.lrc)、数据文件：Cache First（长期缓存）
+ * - 音频文件：Network First（优先网络，失败回退缓存）
+ * - HTML/JS/CSS：Stale While Revalidate（快速响应 + 后台更新）
+ * - 图标/字体：Cache First（永久缓存）
+ */
 
-// 安装 - 使用动态缓存，不硬编码源码路径
-self.addEventListener('install', event => {
-  console.log('[SW] 安装中，版本:', CACHE_NAME)
-  // 跳过等待，立即激活
-  self.skipWaiting()
-})
+const CACHE_VERSION = 'v3.0.0'
+const STATIC_CACHE = `xijing-static-${CACHE_VERSION}`
+const DYNAMIC_CACHE = `xijing-dynamic-${CACHE_VERSION}`
+const LYRICS_CACHE = `xijing-lyrics-${CACHE_VERSION}`
 
-// 激活 - 清理旧缓存
-self.addEventListener('activate', event => {
+// 需要预缓存的静态资源
+const PRECACHE_URLS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './favicon.svg'
+]
+
+// ==================== 安装 ====================
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames
-          .filter(name => name !== CACHE_NAME)
-          .map(name => {
-            console.log('[SW] 删除旧缓存:', name)
-            return caches.delete(name)
-          })
-      )
-    })
+    caches.open(STATIC_CACHE)
+      .then(cache => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
   )
-  // 立即接管页面
-  self.clients.claim()
 })
 
-// 拦截请求 - 动态缓存策略
-self.addEventListener('fetch', event => {
+// ==================== 激活 ====================
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(
+        keys.filter(key =>
+          key.startsWith('xijing-') &&
+          key !== STATIC_CACHE &&
+          key !== DYNAMIC_CACHE &&
+          key !== LYRICS_CACHE
+        ).map(key => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  )
+})
+
+// ==================== 请求拦截 ====================
+self.addEventListener('fetch', (event) => {
   const { request } = event
   const url = new URL(request.url)
 
-  // 只处理同源请求
+  // 仅处理同源请求
   if (url.origin !== location.origin) return
 
-  // 歌词文件 - 网络优先，失败时读缓存
-  if (url.pathname.startsWith('/lyrics/')) {
-    event.respondWith(networkFirst(request))
+  // 路由：歌词文件
+  if (url.pathname.endsWith('.lrc') || url.pathname.includes('/lyrics/')) {
+    event.respondWith(cacheFirst(request, LYRICS_CACHE))
     return
   }
 
-  // HTML页面 - 网络优先
-  if (request.mode === 'navigate' || url.pathname.endsWith('.html')) {
-    event.respondWith(networkFirst(request))
+  // 路由：音频文件
+  if (url.pathname.includes('/audio/')) {
+    event.respondWith(networkFirst(request, DYNAMIC_CACHE))
     return
   }
 
-  // 其他静态资源 - 缓存优先（动态填充）
-  event.respondWith(cacheFirst(request))
+  // 路由：字体/图标
+  if (url.pathname.includes('/icons/') || url.pathname.includes('fonts')) {
+    event.respondWith(cacheFirst(request, STATIC_CACHE))
+    return
+  }
+
+  // 路由：JS/CSS 静态资源
+  if (request.destination === 'script' || request.destination === 'style') {
+    event.respondWith(staleWhileRevalidate(request, DYNAMIC_CACHE))
+    return
+  }
+
+  // 路由：HTML（主页）
+  if (request.mode === 'navigate' || url.pathname === '/' || url.pathname.endsWith('index.html')) {
+    event.respondWith(staleWhileRevalidate(request, STATIC_CACHE))
+    return
+  }
 })
 
-// 缓存优先策略 - 动态缓存
-async function cacheFirst(request) {
-  const cache = await caches.open(CACHE_NAME)
-  const cached = await cache.match(request)
+// ==================== 缓存策略 ====================
 
-  if (cached) {
-    return cached
-  }
+/** Cache First：先读缓存，没有再请求网络 */
+async function cacheFirst(request, cacheName) {
+  const cached = await caches.match(request)
+  if (cached) return cached
 
   try {
     const response = await fetch(request)
     if (response.ok) {
-      // 动态缓存成功的响应
+      const cache = await caches.open(cacheName)
       cache.put(request, response.clone())
     }
     return response
-  } catch (err) {
-    console.error('[SW] 获取失败:', err)
-    return new Response('离线中，请检查网络连接', {
-      status: 503,
-      statusText: 'Service Unavailable'
-    })
+  } catch (e) {
+    // 缓存无、网络失败 → 返回离线占位
+    return new Response('离线状态', { status: 503, headers: { 'Content-Type': 'text/plain' } })
   }
 }
 
-// 网络优先策略
-async function networkFirst(request) {
-  const cache = await caches.open(CACHE_NAME)
-
+/** Network First：先尝试网络，失败回退缓存 */
+async function networkFirst(request, cacheName) {
   try {
-    const networkResponse = await fetch(request)
-    if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone())
+    const response = await fetch(request)
+    if (response.ok) {
+      const cache = await caches.open(cacheName)
+      cache.put(request, response.clone())
     }
-    return networkResponse
-  } catch (err) {
-    console.log('[SW] 网络失败，使用缓存:', request.url)
-    const cached = await cache.match(request)
-    if (cached) {
-      return cached
-    }
-    throw err
+    return response
+  } catch (e) {
+    const cached = await caches.match(request)
+    if (cached) return cached
+    return new Response('音频加载失败', { status: 503 })
   }
 }
 
-// 后台同步（用于留言提交）
-self.addEventListener('sync', event => {
-  if (event.tag === 'sync-messages') {
-    event.waitUntil(Promise.resolve())
-  }
-})
+/** Stale While Revalidate：立即返回缓存，后台更新 */
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName)
+  const cached = await cache.match(request)
 
-// 推送通知
-self.addEventListener('push', event => {
-  const data = event.data ? event.data.json() : {}
-
-  event.waitUntil(
-    self.registration.showNotification(data.title || '兮·境', {
-      body: data.body || '有新的动态',
-      icon: '/icons/icon-192x192.png',
-      tag: data.tag || 'default',
-      requireInteraction: false,
-      actions: [
-        { action: 'open', title: '打开' },
-        { action: 'close', title: '关闭' }
-      ]
+  const fetchPromise = fetch(request)
+    .then(response => {
+      if (response.ok) cache.put(request, response.clone())
+      return response
     })
-  )
-})
+    .catch(() => null)
 
-// 通知点击
-self.addEventListener('notificationclick', event => {
-  event.notification.close()
+  return cached || fetchPromise
+}
 
-  if (event.action === 'open' || !event.action) {
-    event.waitUntil(
-      clients.openWindow('/')
-    )
+// ==================== 消息推送 ====================
+self.addEventListener('message', (event) => {
+  if (event.data === 'skipWaiting') {
+    self.skipWaiting()
   }
 })
